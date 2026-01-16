@@ -4,6 +4,7 @@ import { api } from "../../convex/_generated/api"
 import { Id } from "../../convex/_generated/dataModel"
 import usePresence from "@convex-dev/presence/react";
 import FacePile from "@convex-dev/presence/facepile";
+import { useConvexAuth } from "convex/react";
 
 interface iAppProps {
     roomId: Id<"posts">;
@@ -12,9 +13,15 @@ interface iAppProps {
 
 export function PostPresence({ roomId, userId } : iAppProps) {
     
-    const presenceState = usePresence(api.presence, roomId, userId);
+    const { isAuthenticated, isLoading } = useConvexAuth();
 
-    if (!presenceState || presenceState.length === 0) {
+    const presenceState = usePresence(
+        api.presence, 
+        roomId, 
+        (isLoading || !isAuthenticated) ? "loading" : userId 
+    );
+
+    if (isLoading || !isAuthenticated || !presenceState) {
         return null;
     }
 

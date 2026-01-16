@@ -1,6 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { components } from "./_generated/api";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { Presence } from "@convex-dev/presence";
 import { authComponent } from "./auth";
 
@@ -15,7 +15,7 @@ export const heartbeat = mutation({
   },
   handler: async (ctx, { roomId, userId, sessionId, interval }) => {
     const user = await authComponent.safeGetAuthUser(ctx);
-    if (!user || user._id !== userId) return null;
+    if (!user || user._id !== userId) throw new ConvexError("User not loaded");
     return await presence.heartbeat(ctx, roomId, userId, sessionId, interval);
   },
 });
