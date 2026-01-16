@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { DEFAULT_BLOG_IMAGE } from "@/lib/constants";
 import { cacheLife, cacheTag } from "next/cache";
-import { connection } from "next/server";
 
 export default function BlogPage() {
 
@@ -27,10 +26,9 @@ export default function BlogPage() {
 }
 
 async function LoadBlogs() {
-    // "use cache";
-    // cacheLife("hours");
-    // cacheTag("blog");
-    await connection();
+    "use cache";
+    cacheLife("hours");
+    cacheTag("blog");
     const data = await fetchQuery(api.posts.getBlogPosts);
 
     return (
