@@ -25,7 +25,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Use nodejs runtime for better compatibility with session cookies
-  runtime: "nodejs", 
   matcher: ["/create", "/blog"],
 };
