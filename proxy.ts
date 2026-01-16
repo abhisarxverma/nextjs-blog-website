@@ -7,13 +7,14 @@ export async function proxy(request: NextRequest) {
     // THIS IS NOT SECURE!
     // This is the recommended approach to optimistically redirect users
     // We recommend handling auth checks in each page/route
+    console.log("session cookie - ", sessionCookie);
     if(!sessionCookie) {
-        return NextResponse.redirect(new URL("/auth//login", request.url));
+        return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/ceate", "/blog"], // Specify the routes the middleware applies to
+  matcher: ["/create", "/blog"], // Specify the routes the middleware applies to
 };
